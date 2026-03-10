@@ -18,6 +18,7 @@ import {
   Loader2,
   Search,
   ChevronRight,
+  ChevronLeft,
   Copy,
   Check,
   Moon,
@@ -273,7 +274,7 @@ export default function App() {
   /* ── Main Chat UI ────────────────────────────────────────────────────── */
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${activeConvo ? 'convo-active' : ''}`}>
       {/* ── Sidebar ──────────────────────────────────────────────────── */}
       <aside className="sidebar">
         <div className="sidebar-header">
@@ -369,6 +370,13 @@ export default function App() {
                   peerInboxIds[activeConvo.id] || activeConvo.id;
                 return (
                   <>
+                    <button
+                      className="icon-btn muted mobile-only"
+                      onClick={() => setActiveConvo(null)}
+                      style={{ marginRight: 8, padding: 4 }}
+                    >
+                      <ChevronLeft size={24} />
+                    </button>
                     <div className="avatar" style={{ width: 36, height: 36 }}>
                       {peerId.substring(0, 2).toUpperCase()}
                     </div>
