@@ -20,6 +20,8 @@ import {
   ChevronRight,
   Copy,
   Check,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useXMTP } from "./hooks/useXMTP";
@@ -76,6 +78,15 @@ export default function App() {
   const [statusError, setStatusError] = useState<string | null>(null);
   const [copiedAddr, setCopiedAddr] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [theme, setTheme] = useState<"light" | "dark">(
+    () => (localStorage.getItem("theme") as "light" | "dark") || "dark"
+  );
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   // Guard against double XMTP init
   const xmtpInitRef = useRef(false);
@@ -332,11 +343,18 @@ export default function App() {
             {shorten(client.inboxId ?? "")}
           </div>
           <button
+            className="icon-btn muted"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            title="Toggle Theme"
+          >
+            {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+          <button
             onClick={handleDisconnect}
             className="icon-btn muted"
             title="Disconnect"
           >
-            <LogOut size={16} />
+            <LogOut size={18} />
           </button>
         </div>
       </aside>
